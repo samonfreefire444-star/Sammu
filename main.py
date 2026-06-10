@@ -80,7 +80,7 @@ class PremiumMusicView(View):
     async def hide_card_btn(self, interaction: discord.Interaction, button: Button):
         if self.main_msg:
             await self.main_msg.delete()
-            await interaction.response.send_message("🙈 മ്യൂസിക് കാർഡ് ഹൈഡ് ചെയ്തു!", ephemeral=True)
+            await interaction.response.send_message("🙈 മ్యూസിക് കാർഡ് ഹൈഡ് ചെയ്തു!", ephemeral=True)
 
 class MatrixMusicBot(commands.Bot):
     def __init__(self):
@@ -89,7 +89,7 @@ class MatrixMusicBot(commands.Bot):
 
     async def setup_hook(self):
         await self.tree.sync()
-        print("Slash Commands Synced for Render Free Plan!")
+        print("Slash Commands Synced Successfully!")
 
 bot = MatrixMusicBot()
 
@@ -195,6 +195,5 @@ async def play(interaction: discord.Interaction, search: str):
 
 # 🤖 ബോട്ടിനെയും വെബ് സർവറിനെയും ഒന്നിച്ച് റൺ ചെയ്യിക്കുന്നു
 keep_alive()
-import os
-bot.run(os.environ.get('DISCORD_TOKEN'))
-
+token = os.environ.get('DISCORD_TOKEN')
+bot.run(token)

@@ -6,8 +6,24 @@ import yt_dlp
 import asyncio
 import re
 import urllib.request
-import os
+from flask import Flask
+from threading import Thread
 
+# 🌐 1. Render-ൽ ബോട്ട് എപ്പോഴും ഓൺ ആയിരിക്കാൻ വേണ്ടിയുള്ള വെബ് സർവർ സെറ്റപ്പ്
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "Matrix System is Status: ACTIVE 24/7"
+
+def run_web():
+    app.run(host='0.0.0.0', port=8080)
+
+def keep_alive():
+    t = Thread(target=run_web)
+    t.start()
+
+# 🎛️ 2. ഡിസ്‌കോർഡ് കൺട്രോൾ പാനൽ (9 പ്രീമിയം ബട്ടണുകൾ)
 class PremiumMusicView(View):
     def __init__(self, vc: discord.VoiceClient, main_msg: discord.Message = None):
         super().__init__(timeout=None)
@@ -63,7 +79,7 @@ class PremiumMusicView(View):
     async def hide_card_btn(self, interaction: discord.Interaction, button: Button):
         if self.main_msg:
             await self.main_msg.delete()
-            await interaction.response.send_message("🙈 മ్యూസിക് കാർഡ് ഹൈഡ് ചെയ്തു!", ephemeral=True)
+            await interaction.response.send_message("🙈 മ്യൂസിക് കാർഡ് ഹൈഡ് ചെയ്തു!", ephemeral=True)
 
 class MatrixMusicBot(commands.Bot):
     def __init__(self):
@@ -72,7 +88,7 @@ class MatrixMusicBot(commands.Bot):
 
     async def setup_hook(self):
         await self.tree.sync()
-        print("Slash Commands Synced for Render!")
+        print("Slash Commands Synced for Render Free Plan!")
 
 bot = MatrixMusicBot()
 
@@ -158,7 +174,6 @@ async def play(interaction: discord.Interaction, search: str):
         embed.add_field(name="⏱️ Duration", value=f"`{duration_str}`", inline=True)
         embed.add_field(name="👤 User", value=interaction.user.mention, inline=True)
         
-        # 👑 Developed by SAM ക്രെഡിറ്റ്
         dev_id = "1145383325280764005"
         try:
             dev_user = await bot.fetch_user(int(dev_id))
@@ -177,5 +192,6 @@ async def play(interaction: discord.Interaction, search: str):
     except Exception as e:
         await interaction.followup.send(f"❌ എറർ സംഭവിച്ചു ബ്രോ! (Error: {e})")
 
-# ⚠️ ഇവിടെ നിന്റെ ബോട്ട് ടോക്കൺ പേസ്റ്റ് ചെയ്യുക
+# 🤖 ബോട്ടിനെയും വെബ് സർവറിനെയും ഒന്നിച്ച് റൺ ചെയ്യിക്കുന്നു
+keep_alive()
 bot.run("MTUxNDE2OTEzODE0OTU5MzE0MA.GAI7vZ.KRMmt5Wii4CYTUr-Runwy15CK_oqQPXuNNTWzQ")

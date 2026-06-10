@@ -194,4 +194,6 @@ async def play(interaction: discord.Interaction, search: str):
 
 # 🤖 ബോട്ടിനെയും വെബ് സർവറിനെയും ഒന്നിച്ച് റൺ ചെയ്യിക്കുന്നു
 keep_alive()
-bot.run("YOUR_DISCORD_BOT_TOKEN")
+import os
+bot.run(os.environ.get('DISCORD_TOKEN'))
+
